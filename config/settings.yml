@@ -1,0 +1,4 @@
+development:
+  secret: 'zvdL#PFeamVaLFWZ4cWAoDAtT.J9iD'
+test:
+production:
