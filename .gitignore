@@ -4,6 +4,7 @@
 mails
 
 /public/assets
+/public/uploads/*
 
 # bundler state
 /.bundle
