@@ -1,8 +1,0 @@
-custom: &custom
-development: &development
-  <<: *custom
-  SECRET_TOKEN: 'zvdL#PFeamVaLFWZ4cWAoDAtT.J9iD'
-test:
-  <<: *development
-production:
-  <<: *custom
