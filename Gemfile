@@ -11,6 +11,7 @@ gem 'rake'
 
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib', require: false
+gem 'sinatra-respond_to', require: false
 
 # Sinatra Addons
 # gem "sinatra-respond_to"

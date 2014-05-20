@@ -3,12 +3,14 @@
 .env
 mails
 
+/public/assets
+
 # bundler state
 /.bundle
 /vendor/bundle/
 /vendor/ruby/
 
-/config/settings.yml
+/config/application.yml
 
 /spec/tmp/*
 /cache

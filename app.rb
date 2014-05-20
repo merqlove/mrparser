@@ -42,13 +42,30 @@ end
 I18n.enforce_available_locales = true
 CACHE = Dalli::Client.new ["127.0.0.1:11211"]
 
-# require 'config'
-require 'app/extensions'
-require 'app/models'
-require 'app/helpers'
-require 'app/routes'
+# Locales
+I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
+I18n.load_path = Dir[File.join('./config/locales/*.yml')]
+I18n.backend.load_translations
+I18n.config.available_locales = ["ru", "en"]
+I18n.config.default_locale = 'ru'
+I18n.config.locale = 'ru'
 
 module MrParser
+
+  # Init sub-modules
+  module Routes; end
+  module Extensions; end
+  module Helpers; end
+  module Models; end
+
+  %w(extensions models helpers routes).each do |folder|
+    Dir["app/#{folder}/*.rb"].sort.each do |file|
+      file_path = file.to_s.gsub(/\.rb/, '')
+      name = file_path.gsub(/app\/#{folder}\//, '').titlecase.to_sym
+      MrParser.const_get(folder.titlecase).autoload name, file_path
+    end
+  end
+
   class App < Sinatra::Application
     # use ActiveRecord::ConnectionAdapters::ConnectionManagement
     # use Rack::Cache, verbose: true, metastore: CACHE, entitystore: CACHE
@@ -68,28 +85,19 @@ module MrParser
       set :root, File.expand_path('../', __FILE__)
       set :views, 'app/views'
 
-      # Locales
-      I18n::Backend::Simple.send(:include, I18n::Backend::Fallbacks)
-      I18n.load_path = Dir[File.join(root, 'config', 'locales', '*.yml')]
-      I18n.backend.load_translations
-      I18n.config.default_locale = 'ru'
-      I18n.config.locale = 'ru'
-
       set :erb, escape_html: true
 
       set :sessions,
           httponly: true,
           secure: production?,
           expire_after: 5.years,
-          secret: "zvdL#PFeamVaLFWZ4cWAoDAtT.J9iD"
+          secret: ENV["SECRET_TOKEN"]
 
       disable :method_override, :protection, :static
     end
 
     use Rack::Deflater
     use Rack::Standards
-
-    # use Config::Environments
 
     if settings.development?
       use Routes::Static

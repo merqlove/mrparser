@@ -19,21 +19,25 @@ $: << File.expand_path('../lib', __FILE__)
 # json
 # i18n
 # i18n/backend/fallbacks
-# yaml
 # active_support/json
-# dotenv
 %w(
 sinatra/base
 sinatra/content_for
+sinatra/respond_to
 padrino-helpers
 padrino-mailer
 active_support/core_ext/string
 active_support/core_ext/array
 active_support/core_ext/hash
 i18n/backend/fallbacks
+yaml
 ).each { |d| require d }
 
-# Dotenv.load
+config = YAML.load(File.read(File.expand_path('../config/application.yml', __FILE__)))
+config.merge! config.fetch($env, {})
+config.each do |key, value|
+  ENV[key] = value.to_s unless value.kind_of? Hash
+end
 
 if $env == 'development'
   require "sinatra/reloader"

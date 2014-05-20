@@ -4,11 +4,12 @@ module MrParser
       configure do
         set :views, App.views
         set :root, App.root
-        set :sessions, App.sessions
+
         disable :use_code, :method_override, :protection, :sessions
         enable :static
       end
 
+      register Extensions::Assets
       def static!
         return if (public_dir = settings.public_folder).nil?
         public_dir = File.expand_path(public_dir)
