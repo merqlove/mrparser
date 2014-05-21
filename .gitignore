@@ -1,0 +1,42 @@
+tmp
+.env
+mails
+
+/public/assets
+/public/uploads/*
+
+# bundler state
+/.bundle
+/vendor/bundle/
+/vendor/ruby/
+
+/config/application.yml
+
+/spec/tmp/*
+/cache
+/gems
+/coverage.data
+/coverage/
+/capybara*
+/capybara-*.html
+
+# scm revert files
+**.orig
+
+# Mac finder artifacts
+.DS_Store
+
+# Netbeans project directory
+/nbproject/
+
+# RubyMine project files
+.idea
+
+# Textmate project files
+/*.tmproj
+
+# vim artifacts
+**.swp
+
+# irb artifacts
+.irb_history

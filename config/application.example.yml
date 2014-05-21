@@ -1,0 +1,8 @@
+custom: &custom
+development: &development
+  <<: *custom
+  SECRET_TOKEN: 'SOME LONG SECRET CODE'
+test:
+  <<: *development
+production:
+  <<: *custom
