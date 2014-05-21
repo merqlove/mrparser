@@ -16,21 +16,9 @@ I18n.config.available_locales = ["ru", "en"]
 I18n.config.default_locale = 'ru'
 I18n.config.locale = 'ru'
 
-module MrParser
+require './autoload'
 
-  # Loading MVC Structure
-  %w(extensions models helpers routes).each do |folder|
-    module_name = folder.titlecase
-    unless MrParser.const_defined?(module_name)
-      module_object = Module.new
-      MrParser.const_set(module_name.to_sym, module_object)
-      Dir["app/#{folder}/*.rb"].sort.each do |file|
-        file_path = file.sub '.rb', ''
-        file_name = File.basename(file, '.rb').titlecase.to_sym
-        MrParser.const_get(module_name).autoload file_name, file_path
-      end
-    end
-  end
+module MrParser
 
   # Base App
   class App < Sinatra::Application
@@ -64,6 +52,7 @@ module MrParser
     end
 
     use Rack::Deflater
+    # use Rack::CSRF
     use Rack::Standards
 
     if settings.development?

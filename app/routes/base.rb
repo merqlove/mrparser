@@ -3,13 +3,17 @@ module MrParser
     class Base < Sinatra::Application
       use Rack::Flash
 
+      not_found do
+        "dsggssg"
+      end
+
       configure do
         set :layout, :application
         set :views, App.views
         set :root, App.root
-        set :default_content, :html
+        # set :default_content, :html
 
-        set :erb, escape_html: false,
+        set :erb, escape_html: true,
                   layout: :application,
                   layout_options: {views: "#{App.views}/layouts"}
 
@@ -21,6 +25,8 @@ module MrParser
 
         disable :protection, :static
         enable :inline_templates, :use_code
+
+        set :show_exceptions, :after_handler
       end
 
       configure :development, :production do
@@ -33,20 +39,35 @@ module MrParser
         disable :run, :dump_errors, :logging
       end
 
-      register Padrino::Helpers::TranslationHelpers
-      register Padrino::Helpers::NumberHelpers
-      register Padrino::Helpers::FormHelpers
-      register Padrino::Helpers::FormatHelpers
-      register Padrino::Helpers::TagHelpers
-      register Padrino::Helpers::OutputHelpers
-      # register Padrino::Helpers::AssetTagHelpers
       # register Padrino::Rendering
-      register Padrino::Mailer
+      # register Padrino::Mailer
       register Sinatra::RespondTo
 
-      register Extensions::Assets
-      helpers Helpers
+      # register Extensions::Assets
+      # register Helpers::Assets
+      # helpers Helpers
+      # helpers Padrino::Helpers::TranslationHelpers
+      # helpers Padrino::Helpers::NumberHelpers
+      # helpers Padrino::Helpers::FormHelpers
+      # helpers Padrino::Helpers::FormatHelpers
+      # helpers Padrino::Helpers::TagHelpers
+      # helpers Padrino::Helpers::OutputHelpers
+      helpers Padrino::Helpers::AssetTagHelpers
       helpers Sinatra::ContentFor
+
+      error Sequel::ValidationFailed do
+        status 406
+        json error: {
+            type: 'validation_failed',
+            messages: env['sinatra.error'].errors
+        }
+      end
+
+      error Sequel::NoMatchingRow do
+        status 404
+        content_type :json
+        {type: 'unknown_record'}.to_json
+      end
 
       if settings.development?
         register Sinatra::Reloader

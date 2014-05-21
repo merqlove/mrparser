@@ -29,6 +29,10 @@ padrino-mailer
 active_support/core_ext/string
 active_support/core_ext/array
 active_support/core_ext/hash
+active_support/json
+active_support/dependencies/autoload
+lib/sequel/save_helper
+lib/sequel/url_validation_helpers
 i18n/backend/fallbacks
 yaml
 ).each { |d| require d }

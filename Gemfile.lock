@@ -81,6 +81,8 @@ GEM
     ruby-nuggets (0.9.9)
     sass (3.2.19)
     sequel (4.10.0)
+    sequel_postgresql_triggers (1.0.7)
+      sequel
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -154,6 +156,7 @@ DEPENDENCIES
   rake
   sass (~> 3.2.19)
   sequel
+  sequel_postgresql_triggers
   sinatra
   sinatra-contrib
   sinatra-respond_to

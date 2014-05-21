@@ -34,10 +34,9 @@ gem 'activesupport', require: false
 gem 'builder'
 gem 'json', '~> 1.7.7'
 
-gem 'sprockets'
-
 # Assets
 group :assets do
+  gem 'sprockets'
   gem 'sass', '~> 3.2.19'
   gem 'compass'
   gem 'uglifier'
@@ -58,6 +57,7 @@ gem 'kgio'
 gem 'pg'
 gem 'sequel'
 gem 'sinatra-sequel'
+gem 'sequel_postgresql_triggers'
 
 group :development do
   # gem 'debugger', require: 'ruby-debug'

@@ -4,6 +4,8 @@ body {
   background-color: #777;
   h1 {
     font-size: 1.9em;
-    @include border-radius(7px);
+    background: #ccc;
+    padding: 20px;
+    @include border-radius(8px);
   }
 }

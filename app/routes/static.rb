@@ -10,6 +10,7 @@ module MrParser
       end
 
       register Extensions::Assets
+
       def static!
         return if (public_dir = settings.public_folder).nil?
         public_dir = File.expand_path(public_dir)
