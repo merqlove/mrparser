@@ -75,6 +75,7 @@ module MrParser
     end
 
     use Routes::Posts
+    use Routes::Admin
   end
 end
 

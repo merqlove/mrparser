@@ -1,10 +1,10 @@
 ---
-pid: 76180
+pid: 96613
 config: !ruby/object:Puma::Configuration
   options:
     :min_threads: 0
     :max_threads: 16
-    :quiet: true
+    :quiet: false
     :debug: false
     :binds:
     - unix:////Users/mrcr/Repo/merqlove/mr_parser/tmp/puma/socket
@@ -18,4 +18,4 @@ config: !ruby/object:Puma::Configuration
     :environment: production
     :pidfile: "/Users/mrcr/Repo/merqlove/mr_parser/tmp/puma/pid"
     :state: "/Users/mrcr/Repo/merqlove/mr_parser/tmp/puma/state"
-    :control_auth_token: 357441468b6a1bc3436c7b3d859cf
+    :control_auth_token: 8c6a4ed051c6784d7aea7631d388ebb
