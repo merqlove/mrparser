@@ -1,4 +1,4 @@
-tmp
+/tmp/*
 .env
 mails
 
@@ -40,5 +40,3 @@ mails
 
 # irb artifacts
 .irb_history
-
-!**.gitkeep
