@@ -1,0 +1,11 @@
+<% content_for :head do %>
+
+<% end %>
+
+<% @pages.each do |page| %>
+  <%= page.title %>
+  <%== page.body %>
+  <% page.blocks.each do |block| %>
+    <%== block.body %>
+  <% end %>
+<% end %>

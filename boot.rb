@@ -18,31 +18,51 @@ $: << File.expand_path('../lib', __FILE__)
 # builder
 # json
 # i18n
-# i18n/backend/fallbacks
-# active_support/json
+# padrino-helpers/form_helpers
+# padrino-helpers/breadcrumb_helpers
+# padrino-helpers/format_helpers
+# padrino-helpers/number_helpers
+# padrino-helpers/output_helpers
+# padrino-helpers/translation_helpers
 %w(
-sinatra/base
+sequel/extensions/pagination
+sinatra/sequel
 sinatra/content_for
 sinatra/respond_to
-padrino-helpers
+yandex_captcha
+padrino-helpers/asset_tag_helpers
 padrino-mailer
 active_support/core_ext/string
 active_support/core_ext/array
 active_support/core_ext/hash
 active_support/json
 active_support/dependencies/autoload
-lib/sequel/save_helper
-lib/sequel/url_validation_helpers
+active_support/time_with_zone
+active_support/core_ext/string/conversions
+active_support/core_ext/object/with_options
+active_support/option_merger
+active_support/inflector
+active_support/core_ext/hash/except
 i18n/backend/fallbacks
 yaml
 ).each { |d| require d }
 
-config = YAML.load(File.read(File.expand_path('../config/application.yml', __FILE__)))
-config.merge! config.fetch($env, {})
-config.each do |key, value|
-  ENV[key] = value.to_s unless value.kind_of? Hash
+def config_load_source(path)
+  return nil unless path
+  config = YAML.load(File.read(File.expand_path(path, __FILE__)))
+  config.merge! config.fetch($env, {})
 end
 
+config = config_load_source '../config/application.yml'
+config.each { |key, value| ENV[key] = value.to_s unless value.kind_of? Hash }
+
+DB_CONFIG = config_load_source '../config/database.yml'
+DB_CONFIG.symbolize_keys!
+
 if $env == 'development'
-  require "sinatra/reloader"
+  require 'sinatra/reloader'
+end
+
+if $env == 'production'
+  require 'airbrake'
 end

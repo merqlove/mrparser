@@ -10,16 +10,16 @@ gem 'puma'
 gem 'rake'
 
 gem 'sinatra', require: 'sinatra/base'
-gem 'sinatra-contrib', require: false
-gem 'sinatra-respond_to', require: false
 
 # Sinatra Addons
-# gem "sinatra-respond_to"
+gem 'sinatra-contrib', require: false
+gem 'sinatra-respond_to', require: false
+gem 'yandex_captcha', require: false, github: 'merqlove/yandex-captcha'
 
 # Padrino Modules
-# gem "padrino-core", "~> 0.12.2", require: "padrino-core/application/routing"
-gem "padrino-helpers", "~> 0.12.2"
-gem "padrino-mailer", "~> 0.12.2"
+# gem "padrino-core", "~> 0.12.2", require: "padrino-core/application/routing", github: 'merqlove/padrino-framework'
+gem "padrino-helpers", "~> 0.12.2", require: false, github: 'merqlove/padrino-framework'
+gem "padrino-mailer", "~> 0.12.2", require: false, github: 'merqlove/padrino-framework'
 
 # Rack::Standards adds IE X-UA-Compatible headers for Rack applications.
 gem 'rack-standards'
@@ -34,9 +34,11 @@ gem 'activesupport', require: false
 gem 'builder'
 gem 'json', '~> 1.7.7'
 
+
 # Assets
 group :assets do
   gem 'sprockets'
+
   gem 'sass', '~> 3.2.19'
   gem 'compass'
   gem 'uglifier'
@@ -52,11 +54,12 @@ end
 gem 'dalli'
 gem 'memcachier'
 gem 'kgio'
+gem 'airbrake', require: false
 
 # DB
 gem 'pg'
 gem 'sequel'
-gem 'sinatra-sequel'
+gem 'sinatra-sequel', require: false, github: 'merqlove/sinatra-sequel'
 gem 'sequel_postgresql_triggers'
 
 group :development do

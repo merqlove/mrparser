@@ -1,6 +1,6 @@
 module MrParser
   module Routes
-    class Static < Sinatra::Application
+    class Static < Sinatra::Base
       configure do
         set :views, App.views
         set :root, App.root

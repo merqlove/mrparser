@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <title>MrParser Test</title>
 
-  <link rel="stylesheet" type="text/css" href="<%= asset_path 'application.css' %>">
-  <script src="<%= asset_path 'application.js' %>"></script>
+  <link rel="stylesheet" type="text/css" href="<%= asset_path :assets, 'application.css' %>">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="<%= asset_path :assets, 'application.js' %>"></script>
 
   <%== yield_content :head %>
 </head>

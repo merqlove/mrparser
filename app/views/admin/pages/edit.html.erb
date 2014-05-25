@@ -1,0 +1,10 @@
+<% content_for :head do %>
+  <link rel="stylesheet" href=""/>
+<% end %>
+
+<%= @page.title %>
+<%== @page.body %>
+<% @page.blocks.each do |block| %>
+  <%== block.body %>
+<% end %>
+

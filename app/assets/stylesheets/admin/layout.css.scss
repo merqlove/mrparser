@@ -6,6 +6,6 @@ body {
     font-size: 1.9em;
     background: #ccc;
     padding: 20px;
-    @include border-radius(9px);
+    @include border-radius(8px);
   }
 }

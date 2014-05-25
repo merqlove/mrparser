@@ -1,0 +1,13 @@
+<% content_for :head do %>
+  <script src="<%= asset_path(:assets, "captcha.js") %>"></script>
+<% end %>
+
+<div id="captcha_widget">
+  <div id="captcha_image">
+    <img src="<%= asset_path :assets, "captcha/loading.gif" %>" />
+  </div>
+  <input type="text" id="captcha_response_field" name="captcha_response_field" placeholder="Введите цифры" />
+  <input type="hidden" name="captcha_response_id" value="" />
+</div>
+
+

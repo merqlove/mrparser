@@ -1,16 +1,6 @@
 <% content_for :head do %>
   <link rel="stylesheet" href=""/>
+
 <% end %>
 
-<% if @pages %>
-  <%== @pages.body.to_s.html_safe %>
-<% end %>
-
-<% if false %>
-  <% @pages.each do |page| %>
-    <%= page.title %>
-    <% page.blocks.each do |block| %>
-      <%= block.body %>
-    <% end %>
-  <% end %>
-<% end %>
+<%== "<h1>Admin</h1>" %>

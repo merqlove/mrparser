@@ -21,19 +21,14 @@ require './autoload'
 module MrParser
 
   # Base App
-  class App < Sinatra::Application
+  class App < Sinatra::Base
     # use ActiveRecord::ConnectionAdapters::ConnectionManagement
     # use Rack::Cache, verbose: true, metastore: CACHE, entitystore: CACHE
 
     configure do
-      set :database, lambda {
-        ENV['DATABASE_URL'] ||
-            "postgres://localhost:5432/mr_parser_#{environment}"
-      }
-    end
-
-    configure :development, :staging do
-      database.loggers << Logger.new(STDOUT)
+      set :db, Sequel.connect(DB_CONFIG)
+      db.loggers << Logger.new(STDOUT) if development? or test?
+      db.extension(:pagination)
     end
 
     configure do
@@ -51,9 +46,21 @@ module MrParser
       disable :method_override, :protection, :static
     end
 
+    configure :production do
+      ::Airbrake.configure do |config|
+        config.api_key = ENV["AIRBRAKE_KEY"]
+        config.host    = ENV["AIRBRAKE_HOST"]
+        config.port    = ENV["AIRBRAKE_PORT"]
+        config.secure  = config.port == 443
+      end
+      use Airbrake::Sinatra
+    end
+
     use Rack::Deflater
     # use Rack::CSRF
     use Rack::Standards
+
+    register Sinatra::Mount
 
     if settings.development?
       use Routes::Static
@@ -63,8 +70,10 @@ module MrParser
       use Routes::Assets
     end
 
-    use Routes::Posts
-    use Routes::Admin
+    use Routes::Pages
+
+    mount Routes::Admin::Pages, '/admin'
+
   end
 end
 

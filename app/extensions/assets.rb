@@ -56,7 +56,7 @@ module MrParser
           Sprockets::Sass.options[:read_cache] = false
         end
 
-        app.helpers Helpers
+        # app.helpers Helpers
       end
     end
   end

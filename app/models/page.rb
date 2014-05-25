@@ -4,8 +4,10 @@ module MrParser
   module Models
     class Page < Sequel::Model
       # Scopes
-
-      # dataset_module do
+      dataset_module do
+        def all_data
+          order(:id)
+        end
       #   def ranked
       #     order(:score.desc, :published_at.desc)
       #   end
@@ -52,7 +54,7 @@ module MrParser
       #
       #     dataset.limit(limit)
       #   end
-      # end
+      end
 
       # Relationships
       one_to_many :blocks,

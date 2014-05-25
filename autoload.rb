@@ -6,7 +6,8 @@ Sequel.extension :pg_array_ops
 
 Sequel::Model.raise_on_save_failure = false
 
-Sequel::Model.plugin :timestamps
+Sequel::Model.plugin :raise_not_found
+Sequel::Model.plugin :timestamps, update_on_create: true
 Sequel::Model.plugin :validation_helpers
 Sequel::Model.plugin :serialization
 Sequel::Model.plugin Sequel::Plugins::URLValidationHelpers
@@ -52,9 +53,17 @@ module MrParser
     eager_autoload do
       autoload :Base, 'app/routes/base'
       autoload :Static, 'app/routes/static'
-      autoload :Posts, 'app/routes/posts'
-      autoload :Admin, 'app/routes/admin'
+      autoload :Pages, 'app/routes/pages'
+      autoload :Index, 'app/routes/index'
       autoload :Assets, 'app/routes/assets'
+    end
+    module Admin
+      extend ActiveSupport::Autoload
+      eager_autoload do
+        autoload :Base, 'app/routes/admin/base'
+        autoload :Pages, 'app/routes/admin/pages'
+        # autoload :Index, 'app/routes/admin/index'
+      end
     end
   end
 
