@@ -29,8 +29,10 @@ sequel/extensions/pagination
 sinatra/sequel
 sinatra/content_for
 sinatra/respond_to
+mustermann
 yandex_captcha
 padrino-helpers/asset_tag_helpers
+padrino-helpers/form_helpers
 padrino-mailer
 active_support/core_ext/string
 active_support/core_ext/array

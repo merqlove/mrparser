@@ -45,29 +45,30 @@ module MrParser
   module Helpers
     extend ActiveSupport::Autoload
     eager_autoload do
-      autoload :Assets, 'app/helpers/assets'
+      autoload :Asset, 'app/helpers/asset'
+      autoload :Security, 'app/helpers/security'
     end
   end
-  module Routes
+  module Controllers
     extend ActiveSupport::Autoload
     eager_autoload do
-      autoload :Base, 'app/routes/base'
-      autoload :Static, 'app/routes/static'
-      autoload :Pages, 'app/routes/pages'
-      autoload :Index, 'app/routes/index'
-      autoload :Assets, 'app/routes/assets'
+      autoload :Base, 'app/controllers/base'
+      autoload :Static, 'app/controllers/static'
+      autoload :Pages, 'app/controllers/pages'
+      autoload :Index, 'app/controllers/index'
+      autoload :Assets, 'app/controllers/assets'
     end
     module Admin
       extend ActiveSupport::Autoload
       eager_autoload do
-        autoload :Base, 'app/routes/admin/base'
-        autoload :Pages, 'app/routes/admin/pages'
-        # autoload :Index, 'app/routes/admin/index'
+        autoload :Base, 'app/controllers/admin/base'
+        autoload :Pages, 'app/controllers/admin/pages'
+        # autoload :Index, 'app/controllers/admin/index'
       end
     end
   end
 
-  # %w(extensions models helpers routes).each do |folder|
+  # %w(extensions models helpers controllers).each do |folder|
   #   module_name = folder.titlecase
   #   unless MrParser.const_defined?(module_name)
   #     module_object = Module.new

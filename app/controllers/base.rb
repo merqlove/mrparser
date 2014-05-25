@@ -1,5 +1,5 @@
 module MrParser
-  module Routes
+  module Controllers
     class Base < Sinatra::Base
       use Rack::Flash
 
@@ -36,14 +36,10 @@ module MrParser
                   layout: :application,
                   layout_options: {views: "#{App.views}/layouts"}
 
-        set :protect_from_csrf, false
-        set :report_csrf_failure, false
-        set :allow_disabled_csrf, false
-
         set :sessions, App.sessions
 
-        disable :protection, :static
-        enable :inline_templates, :use_code
+        disable :static
+        enable :inline_templates, :use_code, :protection
 
         set :show_exceptions, :after_handler
       end
@@ -69,8 +65,12 @@ module MrParser
         disable :run, :dump_errors, :logging
       end
 
+      use Rack::Csrf, raise: true, field: 'meta_csrf', key: ENV["SESSION_KEY"]
+      helpers MrParser::Helpers::Security
+
       # register Padrino::Rendering
       register Sinatra::RespondTo
+      register Mustermann
 
       register YandexCaptcha::Sinatra
 
@@ -84,7 +84,7 @@ module MrParser
       # helpers Helpers
       # helpers Padrino::Helpers::TranslationHelpers
       # helpers Padrino::Helpers::NumberHelpers
-      # helpers Padrino::Helpers::FormHelpers
+      helpers Padrino::Helpers::FormHelpers
       # helpers Padrino::Helpers::FormatHelpers
       # helpers Padrino::Helpers::OutputHelpers
       helpers Padrino::Helpers::AssetTagHelpers

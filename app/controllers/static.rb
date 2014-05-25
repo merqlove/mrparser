@@ -1,5 +1,5 @@
 module MrParser
-  module Routes
+  module Controllers
     class Static < Sinatra::Base
       configure do
         set :views, App.views

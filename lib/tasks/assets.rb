@@ -6,7 +6,7 @@ Bundler.require :assets
 namespace :assets do
   desc 'Precompile assets'
   task :precompile => :app do
-    assets = MrParser::Routes::Static.assets
+    assets = MrParser::Controllers::Static.assets
     target = Pathname(MrParser::App.root) + 'public/assets'
 
     assets.each_logical_path do |logical_path|

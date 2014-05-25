@@ -37,17 +37,27 @@ module MrParser
 
       set :erb, escape_html: true
 
-      set :sessions,
+      use Rack::Session::EncryptedCookie,
+          key: ENV["SESSION_KEY"],
           httponly: true,
           secure: production?,
           expire_after: 5.years,
-          secret: ENV["SECRET_TOKEN"]
+          secret: ENV["SECRET_TOKEN"],
+          old_secret: ENV["OLD_SECRET_TOKEN"],
+          header: 'X-CSRF-TOKEN'
+      # set :sessions,
+      #     key: ENV["SESSION_KEY"],
+      #     httponly: true,
+      #     secure: production?,
+      #     expire_after: 5.years,
+      #     secret: ENV["SECRET_TOKEN"],
+      #     old_secret: ENV["OLD_SECRET_TOKEN"],
 
       disable :method_override, :protection, :static
     end
 
     configure :production do
-      ::Airbrake.configure do |config|
+      Airbrake.configure do |config|
         config.api_key = ENV["AIRBRAKE_KEY"]
         config.host    = ENV["AIRBRAKE_HOST"]
         config.port    = ENV["AIRBRAKE_PORT"]
@@ -57,23 +67,21 @@ module MrParser
     end
 
     use Rack::Deflater
-    # use Rack::CSRF
     use Rack::Standards
 
     register Sinatra::Mount
 
     if settings.development?
-      use Routes::Static
+      use Controllers::Static
     end
 
     unless settings.production?
-      use Routes::Assets
+      use Controllers::Assets
     end
 
-    use Routes::Pages
+    use Controllers::Pages
 
-    mount Routes::Admin::Pages, '/admin'
-
+    mount Controllers::Admin::Pages, '/admin'
   end
 end
 

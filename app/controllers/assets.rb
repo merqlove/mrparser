@@ -1,5 +1,5 @@
 module MrParser
-  module Routes
+  module Controllers
     class Assets < Static
       get '/assets/*' do
         env['PATH_INFO'].sub!(%r{^/assets}, '')

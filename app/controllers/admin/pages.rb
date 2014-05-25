@@ -1,5 +1,5 @@
 module MrParser
-  module Routes
+  module Controllers
     class Admin::Pages < Admin::Base
       # before {}
       #
@@ -20,6 +20,14 @@ module MrParser
       # end
       get '/' do
         erb :index
+      end
+
+      get '/test_form' do
+        erb :"test_form"
+      end
+
+      post '/test_respond' do
+        erb YandexCaptcha::Verify.valid_captcha?(params[:captcha_response_id], params[:captcha_response_field]).to_s
       end
 
       get '/pages/?' do

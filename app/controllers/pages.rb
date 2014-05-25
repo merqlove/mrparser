@@ -1,5 +1,5 @@
 module MrParser
-  module Routes
+  module Controllers
     class Pages < Base
       get '/' do
         # Base.deliver(:base, :feedback, "Bob", "bob@bobby.com")

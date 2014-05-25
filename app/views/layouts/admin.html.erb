@@ -4,8 +4,10 @@
   <meta charset="utf-8">
   <title>Admin MrParser Test</title>
 
-  <link rel="stylesheet" type="text/css" href="<%= asset_path :assets, 'application.css' %>">
-  <script src="<%= asset_path :assets, 'application.js' %>"></script>
+  <link rel="stylesheet" type="text/css" href="<%= asset_path :assets, 'admin/application.css' %>">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="<%= asset_path :assets, 'admin/application.js' %>"></script>
+  <%== csrf_metatag %>
 
   <%== yield_content :head %>
 </head>

@@ -23,9 +23,13 @@ gem "padrino-mailer", "~> 0.12.2", require: false, github: 'merqlove/padrino-fra
 
 # Rack::Standards adds IE X-UA-Compatible headers for Rack applications.
 gem 'rack-standards'
-
 gem 'rack-cache', require: "rack/cache"
 gem 'rack-flash3', require: "rack/flash"
+gem 'rack_csrf', require: "rack/csrf"
+gem 'encrypted_cookie', require: 'encrypted_cookie'
+# gem 'rack-cors', require: 'rack/cors'
+
+gem 'mustermann', require: false
 
 gem 'erubis'
 gem 'i18n'
