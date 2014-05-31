@@ -1,0 +1,21 @@
+- content_for :head do
+    script src=""
+
+- h_form '/form', method: :post do
+    - h_field_set class:"office-set" do
+        = captcha_tags ajax: true
+        = submit_tag "Отправить"
+
+
+== "<h1>asfafsas</h1>"
+
+- (0..10).each do |n|
+    = n
+
+form action="/admin/test_respond" method="post"
+  = captcha_tags ajax: true
+  = csrf_tag
+  = submit_tag "Отправить"
+
+
+

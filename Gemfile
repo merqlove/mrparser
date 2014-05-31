@@ -6,20 +6,44 @@ if RUBY_VERSION =~ /2.1/
   Encoding.default_internal = Encoding::UTF_8
 end
 
-gem 'puma'
 gem 'rake'
+gem 'puma'
+
+platforms :ruby, :rbx do
+  gem 'pg'
+  gem 'kgio'
+end
+
+# DB
+platform :jruby do
+  gem 'jdbc-postgres'
+end
+
+gem 'erubis'
+gem 'slim'
+gem 'i18n'
+gem 'tilt-jbuilder', ">= 0.5.0", require: false
+gem 'hashie'
+
+gem 'builder'
+gem 'json', '~> 1.8.1'
+gem 'mail'
+gem 'dedent'
+
+gem 'dalli'
+gem 'memcachier'
+gem 'airbrake', require: false
+
+gem 'will_paginate', require: false
 
 gem 'sinatra', require: 'sinatra/base'
 
 # Sinatra Addons
 gem 'sinatra-contrib', require: false
-gem 'sinatra-respond_to', require: false
 gem 'yandex_captcha', require: false, github: 'merqlove/yandex-captcha'
 
 # Padrino Modules
-# gem "padrino-core", "~> 0.12.2", require: "padrino-core/application/routing", github: 'merqlove/padrino-framework'
 gem "padrino-helpers", "~> 0.12.2", require: false, github: 'merqlove/padrino-framework'
-gem "padrino-mailer", "~> 0.12.2", require: false, github: 'merqlove/padrino-framework'
 
 # Rack::Standards adds IE X-UA-Compatible headers for Rack applications.
 gem 'rack-standards'
@@ -29,14 +53,8 @@ gem 'rack_csrf', require: "rack/csrf"
 gem 'encrypted_cookie', require: 'encrypted_cookie'
 # gem 'rack-cors', require: 'rack/cors'
 
-gem 'mustermann', require: false
-
-gem 'erubis'
-gem 'i18n'
+# gem 'mustermann', require: false
 gem 'activesupport', require: false
-
-gem 'builder'
-gem 'json', '~> 1.7.7'
 
 
 # Assets
@@ -48,21 +66,15 @@ group :assets do
   gem 'uglifier'
   gem 'closure-compiler'
   gem 'coffee-script'
-  # gem 'compass-sourcemaps', require: false
   gem 'sprockets-sass'
   gem 'sprockets-memcache-store'
   gem 'eco'
   gem 'yui-compressor'
 end
 
-gem 'dalli'
-gem 'memcachier'
-gem 'kgio'
-gem 'airbrake', require: false
-
-# DB
-gem 'pg'
 gem 'sequel'
+gem 'sequel_pg', require: false
+gem 'sequel-postgres-schemata', require: false
 gem 'sinatra-sequel', require: false, github: 'merqlove/sinatra-sequel'
 gem 'sequel_postgresql_triggers'
 

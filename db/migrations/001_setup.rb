@@ -12,12 +12,12 @@ Sequel.migration do
       column :published_at, "timestamp without time zone"
 
       index [:published_at]
-      index [:slug], :unique=>true
+      index [:slug], unique: true
     end
 
     create_table(:page_blocks) do
       primary_key :id
-      foreign_key :page_id, :pages, :type=>"integer", key: :id
+      foreign_key :page_id, :pages, type: "integer", key: :id
       column :body, "text"
       column :created_at, "timestamp without time zone"
       column :updated_at, "timestamp without time zone"
@@ -27,6 +27,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table :pages, :page_blocks, :cascade => true
+    drop_table :pages, :page_blocks, cascade: true
   end
 end

@@ -4,6 +4,7 @@ module MrParser
       configure do
         set :views, "#{App.views}/admin"
         set :erb, layout: :admin
+        set :slim, layout: :admin
         set :captcha_ajax_template, "../captcha/captcha_ajax"
         set :captcha_template, "../captcha/captcha"
       end

@@ -1,23 +1,10 @@
 module MrParser
   module Controllers
     class Admin::Pages < Admin::Base
-      # before {}
-      #
-      # get '/admin/?' do
-      #   erb :index
-      # end
-      #
-      # get '/admin/pages/?' do
-      #   @pages = Page.dataset.paginate(1,2).eager(:blocks).all
-      #   raise Sequel::NoMatchingRow if @pages.nil?
-      #   erb :"pages/index"
-      # end
-      #
-      #
-      # get '/admin/pages/:id/edit' do
-      #   @page = Page.find! params[:id]
-      #   erb :"pages/edit"
-      # end
+      before do
+
+      end
+
       get '/' do
         erb :index
       end
@@ -31,7 +18,8 @@ module MrParser
       end
 
       get '/pages/?' do
-        @pages = Page.dataset.paginate(1,2).eager(:blocks).all
+        @pages = Page.dataset
+        # @pages = Page.dataset.paginate(1,2).eager(:blocks).all
         raise Sequel::NoMatchingRow if @pages.nil?
         erb :"pages/index"
       end

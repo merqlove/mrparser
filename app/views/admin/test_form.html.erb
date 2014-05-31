@@ -1,5 +1,6 @@
-<form action="/admin/test_respond" method="post">
-  <%== captcha_tags ajax: true %>
-  <%== csrf_tag %>
-  <input type="submit" value="Отправить"/>
-</form>
+<% h_form '/admin/test_respond', method: :post do %>
+  <% h_field_set(:class => "office-set") do %>
+    <%= captcha_tags ajax: true %>
+    <%= submit_tag "Отправить" %>
+  <% end %>
+<% end %>

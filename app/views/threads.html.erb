@@ -1,0 +1,7 @@
+The total number of threads is: <%= settings.threads.size %>
+
+<% settings.threads.each_with_index do |thread, index| %>
+  <br />
+  <p>Thread <%= index %> inspect: <%= thread.inspect.gsub!(/<|>/, '<' => '&lt;', '>' => '&gt;') %></p>
+  <p>Thread <%= index %> status: <%= thread.status %></p>
+<% end %>

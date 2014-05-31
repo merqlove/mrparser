@@ -26,7 +26,8 @@ module MrParser
     # use Rack::Cache, verbose: true, metastore: CACHE, entitystore: CACHE
 
     configure do
-      set :db, Sequel.connect(DB_CONFIG)
+      register Sinatra::SequelConnect
+      set :db, db_connect(DB_CONFIG)
       db.loggers << Logger.new(STDOUT) if development? or test?
       db.extension(:pagination)
     end
@@ -35,7 +36,7 @@ module MrParser
       set :root, File.expand_path('../', __FILE__)
       set :views, 'app/views'
 
-      set :erb, escape_html: true
+      set :erb, engine_class: Erubis::HtmlSafe::EscapedEruby
 
       use Rack::Session::EncryptedCookie,
           key: ENV["SESSION_KEY"],
@@ -45,13 +46,6 @@ module MrParser
           secret: ENV["SECRET_TOKEN"],
           old_secret: ENV["OLD_SECRET_TOKEN"],
           header: 'X-CSRF-TOKEN'
-      # set :sessions,
-      #     key: ENV["SESSION_KEY"],
-      #     httponly: true,
-      #     secure: production?,
-      #     expire_after: 5.years,
-      #     secret: ENV["SECRET_TOKEN"],
-      #     old_secret: ENV["OLD_SECRET_TOKEN"],
 
       disable :method_override, :protection, :static
     end
@@ -86,3 +80,4 @@ module MrParser
 end
 
 include MrParser::Models
+include MrParser::Mailers

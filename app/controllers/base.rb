@@ -3,38 +3,53 @@ module MrParser
     class Base < Sinatra::Base
       use Rack::Flash
 
-      register Padrino::Mailer
-
-      mailer :base do
-        email :feedback do |name, email|
-          subject 'Hello Man!'
-          to      "#{name}<#{email}>"
-          from    ENV["MAIL_FROM"]
-          locals  :name => name, :mail => email
-          # body "This is test!"
-          body erb :"test.html"
-          content_type :html
-        end
-      end
+      register Sinatra::CustomRender
 
       not_found do
         status 404
         erb :"404"
       end
 
+      before do
+        # case env["SERVER_NAME"]
+        #   when /test\./
+        #     App.db.search_path = [:test, :public]
+        #   when /test2\./
+        #     App.db.search_path = [:test2, :public]
+        #   else
+        #     App.db.search_path = [:public]
+        # end
+      end
+
       configure do
-        # set :layout, :application
         set :views, App.views
         set :root, App.root
-        set :default_content, :html
+        set :threaded, true
+        set :threads, []
 
         set :captcha_ajax_template, "captcha/captcha_ajax"
         set :captcha_template, "captcha/captcha"
         set :captcha_url, "/get_captcha"
 
-        set :erb, escape_html: true,
+        set :erb, engine_class: Erubis::HtmlSafe::EscapedEruby,
                   layout: :application,
                   layout_options: {views: "#{App.views}/layouts"}
+
+        set :slim, # generator: Temple::Generators::RailsOutputBuffer,
+                   # buffer: "@_out_buf",
+                   # disable_capture: true,
+                   # format: :html5,
+                   use_html_safe: true,
+                   layout: :application,
+                   layout_options: {views: "#{App.views}/layouts"}
+
+        # Tilt.register Tilt::HtmlSafe::SafeErubisTemplate, :erb
+        Tilt.register Tilt[:erb], "html.erb"
+        Tilt.register Tilt[:erb], "js.erb"
+        Tilt.register Tilt[:erb], "css.erb"
+
+        # Tilt.register Slim::HtmlSafe::SlimTemplate, :slim
+        Tilt.register Tilt[:slim], "html.slim"
 
         set :sessions, App.sessions
 
@@ -45,32 +60,32 @@ module MrParser
       end
 
       configure :development, :production do
-        set :delivery_method, :smtp => {
-            :address              => ENV["SMTP_PATH"],
-            :port                 => ENV["SMTP_PORT"].to_i,
-            :user_name            => ENV["SMTP_USER"],
-            :password             => ENV["SMTP_PASSWORD"],
-            :authentication       => (ENV["SMTP_AUTH"].to_sym if ENV["SMTP_AUTH"].present?),
-            :enable_starttls_auto => ENV["SMTP_TLS"] == "true"
-        }
+        Mail.defaults do
+          delivery_method :smtp, {
+              address:              ENV["SMTP_PATH"],
+              port:                 ENV["SMTP_PORT"].to_i,
+              user_name:            ENV["SMTP_USER"],
+              password:             ENV["SMTP_PASSWORD"],
+              authentication:       (ENV["SMTP_AUTH"].to_sym if ENV["SMTP_AUTH"].present?),
+              enable_starttls_auto: ENV["SMTP_TLS"] == "true"
+          }
+        end
+        set :protect_from_csrf, true
 
         disable :method_override
         enable :logging, :dump_errors, :run
       end
 
       configure :test do
-        set :delivery_method, :test
+        Mail.defaults { delivery_method :test }
 
         enable :method_override, :raise_errors
         disable :run, :dump_errors, :logging
       end
 
-      use Rack::Csrf, raise: true, field: 'meta_csrf', key: ENV["SESSION_KEY"]
-      helpers MrParser::Helpers::Security
+      use Rack::Csrf, raise: true, field: 'csrf', key: ENV["SESSION_KEY"]
 
-      # register Padrino::Rendering
-      register Sinatra::RespondTo
-      register Mustermann
+      # register Mustermann
 
       register YandexCaptcha::Sinatra
 
@@ -82,14 +97,19 @@ module MrParser
       # register Extensions::Assets
       # register Helpers::Assets
       # helpers Helpers
-      # helpers Padrino::Helpers::TranslationHelpers
       # helpers Padrino::Helpers::NumberHelpers
-      helpers Padrino::Helpers::FormHelpers
-      # helpers Padrino::Helpers::FormatHelpers
       # helpers Padrino::Helpers::OutputHelpers
+      helpers Padrino::Helpers::TranslationHelpers
+      helpers Padrino::Helpers::TagHelpers
+      helpers Padrino::Helpers::FormatHelpers
       helpers Padrino::Helpers::AssetTagHelpers
-      # helpers Sinatra::NamedRoutes::Helpers
+      helpers Padrino::Helpers::FormHelpers
+      helpers Sinatra::Capture
       helpers Sinatra::ContentFor
+      # helpers Sinatra::FormHelpers
+
+      helpers MrParser::Helpers::Security
+      helpers MrParser::Helpers::Output
 
       error Sequel::ValidationFailed do
         # env['sinatra.error'].errors

@@ -1,8 +1,26 @@
 custom: &custom
+  SESSION_KEY: mrcr.session
+  MAIL_FROM: 'Some Owner<example@example.com>'
+  SESSION_KEY: mr_parser.session
+  SMTP_PATH: mailtrap.io
+  SMTP_PORT: 2525
+  SMTP_AUTH: cram_md5
+  SMTP_TLS: true
+  MAX_THREADS: 10
 development: &development
   <<: *custom
-  SECRET_TOKEN: 'SOME LONG SECRET CODE'
+  SECRET_TOKEN: 'SOME_KEY'
+  OLD_SECRET_TOKEN: 'SOME_KEY'
+  SMTP_USER:
+  SMTP_PASSWORD:
 test:
   <<: *development
 production:
   <<: *custom
+  SECRET_TOKEN: 'SOME_KEY'
+  OLD_SECRET_TOKEN: 'SOME_KEY'
+  SMTP_USER:
+  SMTP_PASSWORD:
+  AIRBRAKE_KEY: 'SOME_KEY'
+  AIRBRAKE_HOST: 'SOME_HOST'
+  AIRBRAKE_PORT: 80
