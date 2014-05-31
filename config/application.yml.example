@@ -1,5 +1,4 @@
 custom: &custom
-  SESSION_KEY: mrcr.session
   MAIL_FROM: 'Some Owner<example@example.com>'
   SESSION_KEY: mr_parser.session
   SMTP_PATH: mailtrap.io
